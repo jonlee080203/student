@@ -7,7 +7,7 @@
     <artifactId>StudentManager</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>StudentManager Maven Webapp</name>
+    <name>StudentManager</name>
     <url>http://maven.apache.org</url>
     <dependencies>
 
@@ -126,6 +126,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>StudentManager_2</finalName>
+        <finalName>StudentManager</finalName>
     </build>
 </project>
