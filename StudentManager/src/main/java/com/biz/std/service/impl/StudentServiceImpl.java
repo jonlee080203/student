@@ -135,8 +135,9 @@ public class StudentServiceImpl implements StudentService {
         if (file != null) {
             String path = request.getSession().getServletContext().getRealPath("/") + "upload/";
             String fileName = file.getOriginalFilename();
-            String fileType = fileName.substring(fileName.lastIndexOf("."));
-            if(fileType == "png"){
+            String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
+            System.out.println(fileType+"------------------");
+            if("png".equals(fileType)){
                 String fileAlias = id + ".png";
                 File targetFile = new File(path, fileAlias);
                 targetFile.mkdirs();

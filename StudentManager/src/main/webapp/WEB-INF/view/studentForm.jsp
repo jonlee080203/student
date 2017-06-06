@@ -586,8 +586,8 @@
                                                     <form action="${pageContext.request.contextPath}/student/upload"
                                                           enctype="multipart/form-data" method="post" id="myForm">
                                                         <input type="hidden" name="id" value="${s.id}" />
-                                                        <input type="file" id="picPath" name="file" />
-                                                        <input type="submit" value="上传图片" onclick="getFileName(this)+'\n'+GetFileExt(this);" />
+                                                        <input type="file" id="picPath" name="file" onchange="getFileName(this)+'\n'+GetFileExt(this);" />
+                                                        <input type="submit" value="上传图片"  />
                                                     </form>
                                                 </div>
                                             </div>
