@@ -88,10 +88,13 @@ public class SubjectServiceImpl implements SubjectService {
             subject = new Subject();
 
         }
-        if (!StringUtils.isEmpty(name)||subjectRepository.findByName(name) != null) {
+        if (StringUtils.isEmpty(name)) {
         } else {
-            subject.setName(name);
-            subjectRepository.save(subject);
+            if(subjectRepository.findByName(name) != null){
+            }else {
+                subject.setName(name);
+                subjectRepository.save(subject);
+            }
         }
     }
 
