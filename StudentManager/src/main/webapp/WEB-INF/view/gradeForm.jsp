@@ -249,7 +249,7 @@
 
                                                 &nbsp;
                                                     <%--删除按钮--%>
-                                                <a href="#my-modal-delete" onclick="showmodel(${s.id})" role="button"
+                                                <a href="#my-modal-delete" onclick="showmodel('${s.id}','${s.name}')" role="button"
                                                    class="bg-primary white btn btn-xs btn-danger" title="删除班级信息"
                                                    data-toggle="modal">
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>
@@ -270,14 +270,14 @@
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-hidden="true">×
                                                     </button>
+                                                    <h4 class="blue bigger"> 删除课程 </h4>
                                                 </div>
                                                 <%--获取id的值--%>
                                                 <input type="hidden" id="studentId">
 
-
-                                                <div class="modal-body">
-                                                    确认删除
-                                                </div>
+                                                <center>
+                                                     <input type="text" readonly id="delGradeName" />
+                                                </center>
 
                                                 <div class="modal-footer">
                                                     <button class="btn btn-sm btn-danger pull-right"
@@ -505,8 +505,9 @@
         $('#gradeId').val(id);
         $('#gradeName').val(name);
     }
-    function showmodel(id) {
+    function showmodel(id, name) {
         $('#studentId').val(id);
+        $('#delGradeName').val("确定删除班级："+name+" ?");
     }
 </script>
 </body>

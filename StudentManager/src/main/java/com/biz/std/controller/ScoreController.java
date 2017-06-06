@@ -25,7 +25,6 @@ public class ScoreController {
     @RequestMapping("/updateScore/{studentId}")
     public ModelAndView updateScore(@PathVariable("studentId") Integer studentId, @RequestParam Map<String, String> map) {
         scoreService.updateScore(studentId, map);
-        System.out.println(map);
         return new ModelAndView("redirect:/student/form");
     }
 }

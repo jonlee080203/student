@@ -244,8 +244,8 @@
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a
-                                                   data-toggle="modal" href="${pageContext.request.contextPath}/student/toScoreForm/${s.id}"
-                                                   title="录入成绩" class="btn btn-xs btn-success">
+                                                        data-toggle="modal" onclick="toast('${s.subjectList.size()}','${s.id}',this)"
+                                                        title="录入成绩" class="btn btn-xs btn-success">
                                                     <i class="ace-icon fa fa-check bigger-120"></i>
                                                 </a>
                                                 <a href="#student-select-course" onclick="setId(${s.id})"
@@ -260,7 +260,7 @@
                                                 </a>
                                                 <!--删除学生-->
                                                 <a href="#my-modal-delete"
-                                                   onclick="setIdAndName('${s.id}'+','+'${s.name}')"
+                                                   onclick="setIdAndName('${s.id}','${s.name}')"
                                                    title="删除学生" class="btn btn-xs btn-danger"
                                                    data-toggle="modal">
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>
@@ -386,7 +386,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label class="col-sm-3 control-label no-padding-right">
-                                                                        年级 </label>
+                                                                        班级 </label>
                                                                     <div class="col-sm-9">
                                                                         <select class="col-xs-10 col-sm-5"
                                                                                 name="gradeName"
@@ -583,12 +583,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <form action="${pageContext.request.contextPath}/student/upload"
-                                                          enctype="multipart/form-data" method="post">
-                                                        <input type="hidden" name="id" value="${s.id}">
-                                                        <input type="file" name="file">
-                                                        <input type="submit">
+                                                          enctype="multipart/form-data" method="post" id="myForm">
+                                                        <input type="hidden" name="id" value="${s.id}" />
+                                                        <input type="file" id="picPath" name="file" />
+                                                        <input type="submit" value="上传图片" onclick="getFileName(this)+'\n'+GetFileExt(this);" />
                                                     </form>
                                                 </div>
                                             </div>
@@ -624,6 +623,30 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--提示先录入分数弹出框-->
+                                    <div id="my-modal-toast" class="modal fade " tabindex="-1" style="">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">×
+                                                    </button>
+                                                    <h4 class="blue bigger">录入分数</h4>
+                                                </div>
+                                                <div class="modal-header">
+                                                    <c:out value="请先添加选课" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-sm btn-danger pull-right"
+                                                            data-dismiss="modal">
+                                                        关闭
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </table>
                                 </table>
                                 <!--分页列表-->
                                 <div class="row">
@@ -775,21 +798,44 @@
 
     })
 
-    function setIdAndName(idAndName) {
-        var id = idAndName.split(',')[0];
-        var name = idAndName.split(',')[1];
+    //设置删除时提交的学生id和显示姓名
+    function setIdAndName(id, name) {
         $('#studentId').val(id);
-        $('#studentName').val("确定删除" + name + "?");
+        $('#studentName').val("确定删除学生:" + name + " ?");
     }
     //设置选中的学生的id，然后进行选课
     function setId(id) {
         $('#ids').val(id);
     }
 
-    function entryGrade(id, obj) {
-        obj.href = "${pageContext.request.contextPath}/student/toScoreForm/" + id;
-        obj.click('#entry-grades');
+    //未选课点击录入成绩时提示先选课
+    function toast(subjectnum,id,obj) {
+        if(subjectnum<=0){
+            obj.href="${pageContext.request.contextPath}/student/form/#my-modal-toast";
+        }else {
+            obj.href="${pageContext.request.contextPath}/student/toScoreForm/"+id;
+            obj.click();
+        }
     }
+
+    //获取文件名
+    function getFileName(o)
+    {
+        var pos=o.value.lastIndexOf("\\");
+        return o.value.substring(pos+1);//文件名
+
+    }
+    //获取后缀
+    function GetFileExt(o)
+    {
+        var type = o.value.replace(/.+\./,"");
+        if (type != "png") {
+            alert("请上传png格式的图片");
+            return false;
+        }
+        return true;
+    }
+
 </script>
 </body>
 </html>

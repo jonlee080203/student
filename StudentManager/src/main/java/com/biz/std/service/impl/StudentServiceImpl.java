@@ -17,7 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,8 +86,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void selectSubject(String subjectName, Integer studentId) {
         if(subjectName!=null){
-            String[] subjectNames = subjectName.split(",");
+            try {
+                subjectName = new String(subjectName.getBytes("iso-8859-1"),"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
+            String[] subjectNames = subjectName.split(",");
             List<Score> scores = new ArrayList<Score>();
             for(int i=0;i<subjectNames.length;i++){
                 Score score = scoreRepository.findBySubject_NameAndStudent_Id(subjectNames[i], studentId);
@@ -117,5 +127,25 @@ public class StudentServiceImpl implements StudentService {
         pageBean.setPageSize(size);
         pageBean.setTotalPage(totalPages);
         return pageBean;
+    }
+
+    //上传图片
+    @Override
+    public void uploadPicture(Integer id, MultipartFile file, HttpServletRequest request) {
+        if (file != null) {
+            String path = request.getSession().getServletContext().getRealPath("/") + "upload/";
+            String fileName = file.getOriginalFilename();
+            String fileType = fileName.substring(fileName.lastIndexOf("."));
+            if(fileType == "png"){
+                String fileAlias = id + ".png";
+                File targetFile = new File(path, fileAlias);
+                targetFile.mkdirs();
+                try {
+                    file.transferTo(targetFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

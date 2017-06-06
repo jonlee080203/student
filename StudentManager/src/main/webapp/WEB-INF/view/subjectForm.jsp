@@ -247,15 +247,15 @@
                                             <div class="hidden-sm hidden-xs btn-group">
                                                     <%--修改按钮--%>
                                                 <a href="#togger" role="button" onclick="setSubjectName('${s.id}','${s.name}')"
-                                                   class="bigger-125 bg-primary white btn btn-xs btn-info"
+                                                   class="btn btn-xs btn-info"
                                                    data-toggle="modal" title="修改课程">
-                                                    <i class="ace-icon fa fa-pencil bigger-120 bigger-125 bg-primary white"></i>
+                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                 </a>
 
                                                 &nbsp;
                                                     <%--删除按钮--%>
-                                                <a href="#my-modal-delete" onclick="showmodel(${s.id})" role="button"
-                                                   class="bigger-125 bg-primary white btn btn-xs btn-danger"
+                                                <a href="#my-modal-delete" onclick="showmodel('${s.id}', '${s.name}')" role="button"
+                                                   class="btn btn-xs btn-danger"
                                                    data-toggle="modal" title="删除课程">
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                 </a>
@@ -344,9 +344,6 @@
                                                                     </c:forEach>
                                                                 </div>
                                                             </div>
-
-
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -364,15 +361,13 @@
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-hidden="true">×
                                                     </button>
+                                                    <h4 class="blue bigger"> 删除课程 </h4>
                                                 </div>
                                                 <%--获取id的值--%>
                                                 <input type="hidden" id="studentId">
-
-
-                                                <div class="modal-body">
-                                                    确认删除
-                                                </div>
-
+                                                <center>
+                                                    <input type="text" readonly id="delSubjectName">
+                                                </center>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-sm btn-danger pull-right"
                                                             data-dismiss="modal">
@@ -598,8 +593,9 @@
         $('#subjectId').val(id);
         $('#subjectName').val(name);
     }
-    function showmodel(id) {
+    function showmodel(id, name) {
         $('#studentId').val(id);
+        $('#delSubjectName').val("确定删除课程："+name+" ?");
     }
 </script>
 </body>

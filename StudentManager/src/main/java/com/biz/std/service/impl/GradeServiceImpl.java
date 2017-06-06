@@ -67,7 +67,7 @@ public class GradeServiceImpl implements GradeService {
         }else {
             grade =  new Grade();
         }
-        if(!StringUtils.isEmpty(gradeName)&&gradeRepository.findByName(gradeName) != null){
+        if(!StringUtils.isEmpty(gradeName)||gradeRepository.findByName(gradeName) != null){
         }else {
             grade.setName(gradeName);
             gradeRepository.save(grade);

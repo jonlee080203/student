@@ -84,13 +84,6 @@ public class StudentController {
     //保存学生选课信息
     @RequestMapping("/selectSubject")
     public String selectSubject(Integer id, String name){
-        try {
-            if(name!=null){
-                name = new String(name.getBytes("iso-8859-1"),"UTF-8");
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         studentService.selectSubject(name, id);
         return "redirect:/student/form";
     }
@@ -107,19 +100,7 @@ public class StudentController {
     //上传头像
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ModelAndView upload(@RequestParam Integer id, @RequestParam MultipartFile file, HttpServletRequest request) {
-        if (file != null) {
-            String path = request.getSession().getServletContext().getRealPath("/") + "upload/";
-            String fileName = file.getOriginalFilename();
-            String fileType = fileName.substring(fileName.lastIndexOf("."));
-            String fileAlias = id + ".png";
-            File targetFile = new File(path, fileAlias);
-            targetFile.mkdirs();
-            try {
-                file.transferTo(targetFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        studentService.uploadPicture(id, file, request);
         return new ModelAndView("redirect:/student/form");
 
     }
