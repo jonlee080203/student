@@ -46,8 +46,8 @@ public class StudentServiceImpl implements StudentService {
     private SubjectRepository subjectRepository;
 
     @Override
-    public PageBean<StudentVo> listStudent() {
-        Pageable pageable = new PageRequest(0, 10);
+    public PageBean<StudentVo> listStudent(int pageNum) {
+        Pageable pageable = new PageRequest(pageNum, 10);
         Page<Student> page = studentRepository.findAll(pageable);
         List<Student> students = page.getContent();
         List<StudentVo> studentVos = new ArrayList<>();
@@ -105,28 +105,6 @@ public class StudentServiceImpl implements StudentService {
             }
             scoreRepository.save(scores);//批量添加
         }
-    }
-
-    //学生信息分页
-    @Override
-    public PageBean<StudentVo> skipStudentPage(int pageNum) {
-        Pageable pageable = new PageRequest(pageNum, 10);
-        Page<Student> page = studentRepository.findAll(pageable);
-        List<Student> students = page.getContent();
-        List<StudentVo> studentVos = new ArrayList<>();
-        for (Student s : students) {
-            StudentVo studentVo = Po2VoUtil.student2StudentVo(s);
-            studentVos.add(studentVo);
-        }
-        int totalPages = page.getTotalPages();
-        int currentPage = page.getNumber();
-        int size = page.getSize();
-        PageBean<StudentVo> pageBean = new PageBean<>();
-        pageBean.setList(studentVos);
-        pageBean.setCurrentPage(currentPage);
-        pageBean.setPageSize(size);
-        pageBean.setTotalPage(totalPages);
-        return pageBean;
     }
 
     //上传图片

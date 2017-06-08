@@ -49,7 +49,7 @@ public class StudentController {
     @RequestMapping("/form")
     public ModelAndView goStudentForm(){
         ModelAndView modelAndView = new ModelAndView("studentForm");
-        PageBean studentVo = studentService.listStudent();
+        PageBean studentVo = studentService.listStudent(0);
         List<Grade> gradeList = gradeService.findAll();
         List<Subject> subjectList = subjectService.findAll();
         modelAndView.addObject("studentVo",studentVo);
@@ -109,10 +109,10 @@ public class StudentController {
     @RequestMapping("/pageSkip/{pageNum}")
     public ModelAndView pageSkip(@PathVariable("pageNum") int pageNum){
         ModelAndView modelAndView = new ModelAndView("studentForm");
-        PageBean studentFormVo = studentService.skipStudentPage(pageNum);
+        PageBean studentVo = studentService.listStudent(pageNum);
         List<Grade> gradeList = gradeService.findAll();
         List<Subject> subjectList = subjectService.findAll();
-        modelAndView.addObject("studentFormVo",studentFormVo);
+        modelAndView.addObject("studentVo",studentVo);
         modelAndView.addObject("gradeList", gradeList);
         modelAndView.addObject("subjectList", subjectList);
         return modelAndView;
